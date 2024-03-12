@@ -11,3 +11,104 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.main-title {
+  text-align: center;
+  font-size: 2rem;
+}
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.tasks {
+  list-style: none;
+  padding: 0;
+}
+.tasks li {
+  border: 1px solid black;
+  display: flex;
+  justify-content: space-between;
+  width: 400px;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+  align-items: center;
+}
+.added-items {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 30px;
+  margin-top: 30px;
+  width: 400px;
+}
+.text {
+  width: 340px;
+  padding: 20px;
+  box-sizing: border-box;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid black;
+  font-size: 20px;
+}
+.btn-add {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  box-sizing: border-box;
+  border-radius: 0 20px 20px 0;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: .3s;
+  opacity: .3;
+}
+.btn-add:hover {
+  transform: scale(1.1);
+  opacity: 1;
+}
+.task__buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.bucket, .done {
+  cursor: pointer;
+  transition: .3s;
+  opacity: .3;
+}
+.bucket:hover, .done:hover{
+  transform: scale(1.1);
+  opacity: 1;
+}
+.top-bucket, .done-left {
+  transition: .3s;
+}
+.bucket:hover .top-bucket {
+  transform: rotate(-10deg) translate(-1px, -2px );
+}
+.done:hover .done-left {
+  transform: translateX(5px);
+}
+.done:hover .done-right {
+  transform: translateX(-5px);
+}
+.tasks-done li{
+  opacity: .3;
+  position: relative;
+}
+.tasks-done li hr {
+  position: absolute;
+  top: 40%;
+  left: -10%;
+  width: 120%;
+}
+hr {
+  width: 50%;
+}
+
