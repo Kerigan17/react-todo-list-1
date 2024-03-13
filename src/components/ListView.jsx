@@ -12,11 +12,12 @@ function ListView(props) {
     const textInput = React.createRef();
 
     function addItem() {
-        if (task !== '') {
-            setTasks([task, ...tasks]);
-            textInput.current.value = '';
+        let trimText = task.trim();
+        if (trimText !== '') {
+            setTasks([trimText, ...tasks]);
             setTask('');
         }
+        textInput.current.value = '';
     }
     function tapKey(e) {
         if (e.key === 'Enter') {
