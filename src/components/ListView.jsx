@@ -17,7 +17,10 @@ function ListView(props) {
     function addItem() {
         let trimText = task.trim();
         if (trimText !== '') {
-            setTasks([trimText, ...tasks]);
+            setTasks([{
+                task: trimText,
+                completed: false
+            }, ...tasks]);
             setTask('');
         }
         textInput.current.value = '';
