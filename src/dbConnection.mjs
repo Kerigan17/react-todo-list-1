@@ -20,12 +20,21 @@ app.get("/",(req,res)=>{
 });
 
 app.get("/tasks",(req,res)=>{
-    const q="SELECT * FROM tasks"
+    const q="SELECT * FROM tasks";
     db.query(q,(err,data)=>{
-        if(err) return res.json(err)
-        return res.json(data)
-    })
+        if(err) return res.json(err);
+        return res.json(data);
+    });
 });
+
+app.post("/addTask", (req, res) => {
+    const q='INSERT INTO tasks(task, completed) values(?, ?)';
+    const {task, completed} = req.body;
+    db.query(q, [task, completed], (err,data)=>{
+        if(err) return res.json(err);
+        return res.json(data);
+    });
+})
 
 app.listen(8800,()=>{
     console.log("Connect to backend.")

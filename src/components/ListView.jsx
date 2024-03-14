@@ -6,23 +6,36 @@ function ListView(props) {
     const [tasksDone, setTasksDone] = useState([]);
     const [task, setTask] = useState('');
     const textInput = React.createRef();
+    let data;
 
     useEffect(() => {
         fetch('http://localhost:8800/tasks')
             .then(response => response.json())
-            .then(data => setTasks(data))
+            .then(data => setTasks(data.reverse()))
             .catch(error => console.error(error))
     }, []);
 
     function addItem() {
         let trimText = task.trim();
+        data = {task: trimText, completed: false};
+
         if (trimText !== '') {
             setTasks([{
                 task: trimText,
                 completed: false
             }, ...tasks]);
+
+            fetch('http://localhost:8800/addTask', {
+                method: 'POST',
+                body: data
+            })
+                .then(response => response.json())
+                .then(data => console.log(data))
+                .catch(error => console.error(error))
+
             setTask('');
         }
+
         textInput.current.value = '';
     }
     function tapKey(e) {
