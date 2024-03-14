@@ -17,7 +17,6 @@ function ListView(props) {
 
     function addItem() {
         let trimText = task.trim();
-        data = {task: trimText, completed: false};
 
         if (trimText !== '') {
             setTasks([{
@@ -27,7 +26,8 @@ function ListView(props) {
 
             fetch('http://localhost:8800/addTask', {
                 method: 'POST',
-                body: data
+                headers: {'Content-Type' : 'application/json'},
+                body: JSON.stringify({task: trimText, completed: false})
             })
                 .then(response => response.json())
                 .then(data => console.log(data))
