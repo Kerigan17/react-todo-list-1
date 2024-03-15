@@ -22,3 +22,12 @@ export const delInfo = (url, id) => fetch(defaultUrl + url, {
     .then(response => response.json())
     .then(data => console.log(data))
     .catch(error => console.error(error))
+
+export const updateInfo = (url, id) => fetch(defaultUrl + url, {
+    method: 'POST',
+    headers: {'Content-Type' : 'application/json'},
+    body: JSON.stringify({id: id})
+})
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error(error))

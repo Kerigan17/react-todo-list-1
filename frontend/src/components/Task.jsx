@@ -1,11 +1,11 @@
 import React from "react";
 
-function Task(data, index, deleteItem) {
+function Task(data, index, deleteItem, taskComplete) {
     return (
         <li key={index}>
             {data.task}
             <div className={'task__buttons'}>
-                <div className={'done'} /*onClick={() => taskComplete(el, index)}*/>
+                <div className={'done'} onClick={() => taskComplete(data.task)}>
                     <svg width="30px" height="30px" viewBox="0 0 48 48" fill="none"
                          xmlns="http://www.w3.org/2000/svg">
                         <rect width="48" height="48" fill="white" fillOpacity="0.01"/>

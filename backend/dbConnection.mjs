@@ -40,6 +40,15 @@ app.delete("/deleteTask", (req, res) => {
     });
 });
 
+app.post("/updateTask", (req, res) => {
+    const {task, completed} = req.body;
+    const q='UPDATE tasks SET completed = true WHERE id = ?';
+    db.query(q, [req.body.id], (err,data)=>{
+        if(err) return res.json(err);
+        return res.json(data);
+    });
+});
+
 app.listen(8800,()=>{
     console.log("Connect to backend.");
 });

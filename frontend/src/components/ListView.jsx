@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import Task from './Task.jsx';
-import {getInfo, postInfo, delInfo} from '../services/DatabaseInfo'
+import {getInfo, postInfo, delInfo, updateInfo} from '../services/DatabaseInfo'
 
 function ListView(props) {
     const [tasks, setTasks] = useState();
@@ -18,9 +18,8 @@ function ListView(props) {
         if (trimText !== '') {
             postInfo('addTask', trimText);
             setTask('');
-            getInfo('tasks').then(data => setTasks(data.reverse()));
         }
-
+        getInfo('tasks').then(data => setTasks(data.reverse()));
         textInput.current.value = '';
     }
     function tapKey(e) {
@@ -31,12 +30,12 @@ function ListView(props) {
 
     const deleteItem = (i) => {
         //setTasks(tasks.filter((el, index) => (i !== index)));
-        delInfo('deleteTask', tasks[i].id);
-        getInfo('tasks').then(data => setTasks(data.reverse()));
+        delInfo('deleteTask', tasks[i].id)
+            .then(getInfo('tasks').then(data => setTasks(data.reverse())))
     }
-    function taskComplete(task, index) {
-        setTasksDone([task, ...tasksDone]);
-        deleteItem(index);
+    function taskComplete(task) {
+        updateInfo(task.id)
+            .then(getInfo('tasks').then(data => setTasks(data.reverse())))
     }
 
     return (
@@ -63,7 +62,7 @@ function ListView(props) {
             <ul className={'tasks'}>
                 {
                     tasks&&tasks.map((el, index) =>
-                        Task(el, index, deleteItem)
+                        Task(el, index, deleteItem, taskComplete)
                     )
                 }
             </ul>
