@@ -15,5 +15,10 @@ export const postInfo = (url, task) => fetch(defaultUrl + url, {
     .catch(error => console.error(error))
 
 export const delInfo = (url, id) => fetch(defaultUrl + url, {
-
+    method: 'DELETE',
+    headers: {'Content-Type' : 'application/json'},
+    body: JSON.stringify({id: id})
 })
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error(error))

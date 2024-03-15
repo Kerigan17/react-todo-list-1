@@ -30,7 +30,9 @@ function ListView(props) {
     }
 
     const deleteItem = (i) => {
-        setTasks(tasks.filter((el, index) => (i !== index)));
+        //setTasks(tasks.filter((el, index) => (i !== index)));
+        delInfo('deleteTask', tasks[i].id);
+        getInfo('tasks').then(data => setTasks(data.reverse()));
     }
     function taskComplete(task, index) {
         setTasksDone([task, ...tasksDone]);

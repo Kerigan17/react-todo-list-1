@@ -26,13 +26,19 @@ app.get("/tasks",(req,res)=>{
 app.post("/addTask", (req, res) => {
     const {task, completed} = req.body;
     const q='INSERT INTO tasks(task, completed) values(?, ?)';
-    db.query(q,[task, completed], (err,data)=>{
+    db.query(q, [task, completed], (err,data)=>{
         if(err) return res.json(err);
         return res.json(data);
     });
 });
 
-
+app.delete("/deleteTask", (req, res) => {
+    const q='DELETE FROM tasks WHERE id=?';
+    db.query(q, [req.body.id, ], (err,data)=>{
+        if(err) return res.json(err);
+        return res.json(data);
+    });
+});
 
 app.listen(8800,()=>{
     console.log("Connect to backend.");
