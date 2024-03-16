@@ -3,24 +3,31 @@ import Task from './Task.jsx';
 import {getInfo, postInfo, delInfo, updateInfo} from '../services/DatabaseInfo'
 
 function ListView(props) {
-    const [tasks, setTasks] = useState();
+    const [tasks, setTasks] = useState([]);
     const [tasksDone, setTasksDone] = useState([]);
     const [task, setTask] = useState('');
     const textInput = React.createRef();
 
     useEffect(() => {
-        getInfo('tasks').then(data => setTasks(data.reverse()));
+        // getInfo('tasks').then(data => setTasks(data.reverse()));
+        updateTasks();
     }, []);
+
+    function updateTasks() {
+        getInfo('tasks').then(data => {
+            setTasks(data.filter(item => item.completed === 0).reverse())
+            setTasksDone(data.filter(item => item.completed === 1).reverse())
+        })
+    }
 
     function addItem() {
         let trimText = task.trim();
 
         if (trimText !== '') {
-            postInfo('addTask', trimText);
+            postInfo('addTask', trimText).then(updateTasks());
             setTask('');
+            textInput.current.value = '';
         }
-        getInfo('tasks').then(data => setTasks(data.reverse()));
-        textInput.current.value = '';
     }
     function tapKey(e) {
         if (e.key === 'Enter') {
@@ -29,13 +36,13 @@ function ListView(props) {
     }
 
     const deleteItem = (i) => {
-        //setTasks(tasks.filter((el, index) => (i !== index)));
         delInfo('deleteTask', tasks[i].id)
-            .then(getInfo('tasks').then(data => setTasks(data.reverse())))
+        updateTasks()
     }
     function taskComplete(task) {
-        updateInfo(task.id)
-            .then(getInfo('tasks').then(data => setTasks(data.reverse())))
+        updateInfo('updateTask', task.id)
+            .then(updateTasks())
+            // .then(getInfo('tasks').then(data => setTasks(data.reverse())))
     }
 
     return (
@@ -72,11 +79,12 @@ function ListView(props) {
             <h2>Completed</h2>
             <ul className={'tasks tasks-done'}>
                 {
-                    tasksDone.map((el, index) =>
-                        <li key={index}>
-                            {el}
-                            <hr/>
-                        </li>
+                    tasksDone&&tasksDone.map((el, index) =>
+                            Task(el, index, deleteItem, taskComplete)
+                        // <li key={index}>
+                        //     {el}
+                        //     <hr/>
+                        // </li>
                     )
                 }
             </ul>
